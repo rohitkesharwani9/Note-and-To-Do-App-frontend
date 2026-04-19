@@ -1,0 +1,184 @@
+/* iOS system alert–style two-action confirmation (both labels in system blue, e.g. No / Yes) */
+.ios-yn-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px max(20px, env(safe-area-inset-right))
+    max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-yn-confirm-sheet {
+  width: 100%;
+  max-width: 270px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.22),
+    0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.ios-yn-confirm-body {
+  padding: 20px 16px 16px;
+  text-align: center;
+}
+
+.ios-yn-confirm-warning-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.ios-yn-confirm-warning-row {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ios-yn-confirm-warning-label {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Text',
+    'Segoe UI',
+    system-ui,
+    sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  color: #9a7100;
+}
+
+.ios-yn-confirm-title {
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Text',
+    'SF Pro Display',
+    'Segoe UI',
+    system-ui,
+    sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.022em;
+  color: #000;
+}
+
+.ios-yn-confirm-message {
+  margin: 10px 0 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Text',
+    'Segoe UI',
+    system-ui,
+    sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.006em;
+  color: #000;
+}
+
+.ios-yn-confirm-message--warning {
+  color: #b07900;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.ios-yn-confirm-status-row {
+  margin-top: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.ios-yn-confirm-status-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Text',
+    'Segoe UI',
+    system-ui,
+    sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #214d77;
+  background: linear-gradient(180deg, #eef5fd 0%, #dceaf9 100%);
+  border: 1px solid rgba(80, 128, 176, 0.28);
+}
+
+.ios-yn-confirm-hrule {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: rgba(60, 60, 67, 0.36);
+  transform: scaleY(0.5);
+  transform-origin: center top;
+}
+
+.ios-yn-confirm-actions {
+  display: flex;
+  align-items: stretch;
+  min-height: 44px;
+}
+
+.ios-yn-confirm-btn {
+  flex: 1;
+  margin: 0;
+  padding: 11px 8px;
+  border: none;
+  cursor: pointer;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Text',
+    'Segoe UI',
+    system-ui,
+    sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+  color: #007aff;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.12s ease;
+}
+
+.ios-yn-confirm-btn:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.ios-yn-confirm-vrule {
+  width: 1px;
+  flex-shrink: 0;
+  background: rgba(60, 60, 67, 0.36);
+  transform: scaleX(0.5);
+  transform-origin: left center;
+}
+
+@media (min-width: 430px) {
+  .ios-yn-confirm-sheet {
+    max-width: 292px;
+  }
+}
+

@@ -1,0 +1,45 @@
+i have to make a very mordern and responsive To-Do Web App for my app and softeware development tracking and to-do are saved.
+so i add these rule and you have to follow strictly these rule when write any code.
+
+1. You have to use Framer Motion for every UI component. every small portion or app use this to inhance and vibrant look.
+every small details use this motion graphics. 
+
+2. When you write any ui related box, div, button, input, option chooseing, radio buttons, spinnar button or any part then
+remember it have to responsive on both mobile and desktop. you have to write dual style code one for desktop and one for smartphone
+it make more responsive and look so good on both screen.
+
+3. when you make any component then use skeuomorphism and Neumorphism style stickly. even a small details are use only these two ui style stickly.
+
+4. When you make any database related code then keep in mind that this code will not make problem when multiple user
+use same account then it does not create race problem and synce to all devices.
+
+5. you have to make this webapp as for mobile screen as user can't say that it is a web app. so it feel strictly
+as a native app.
+
+6. Any confirmation does not use browser alert. to all confirmation use native app like confirmation with skeuomorphism and Neumorphism style.
+
+7. All errors that show to user, does not show raw error to user all error and exception cover greasfully handle
+and show in mordern way so user easily understand. remember you does not show technicall error to user if any 
+technicall error comes then handle it as a exception and show beautifill custom massage.
+
+8. write all input filed with a minimum and maximum limit so it does not create overflow problem to user.
+for email minimum character limit is 5 and max character limit to 50 character. all password related filed
+minimum character limit is 6 and max character limit is 25. first name minimum limit is 3 and maximum limit is 25 character.
+last name minimum charcter limit is 0 and maximum limit is 25 character. project name minimum 3 and maximum 30 charector.
+search filed input minimum 3 and maximum 30 character. task title minimum 4 and maximum 30 character (spaces count toward the limit). task description may be empty; maximum 500 characters.
+
+9. all database table main table have unique column for example email, user id etc.
+
+10. any small details that help to user and inhance UX implement it.
+
+11. follow same color pattern in all page and element. for example all button color are same input filed.
+
+12. remember you have to remove comfirm submission alert from every page so it does not resubmit details to database
+when user click on refresh button.
+
+13. all pop are does not close when user click or tap outside to pop up box. it only close via close or cancel button only.
+
+14. All buttons design are same font , same height as /app-home page "sign out" button have , same font size , same font color , same button border , same border radius , same button background color , 
+same on hover effect , same on hover color and same button shaddow as dark blur shaddow from all sided top, bottom, left, right
+side and make this shaddow toward outside to button.
+

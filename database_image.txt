@@ -1,0 +1,148 @@
+================================================================================
+  DATABASE OVERVIEW (PostgreSQL)
+  Source of truth: backend/setup-db.js (tables in PostgreSQL)
+================================================================================
+
+RELATIONSHIPS (high level)
+--------------------------
+
+  User (1) ──────────< (N) Project
+    │
+    └──────────────────< (N) Todo
+                              │
+                              └──> (optional) Project  (project_id → Project.id)
+
+
+ASCII diagram
+-------------
+
+  ┌─────────────────────┐
+  │       User          │
+  │  id (PK)            │
+  │  email (UNIQUE)     │
+  │  password_hash      │
+  │  first_name, last_name │
+  │  reset_token (UQ)   │
+  │  token_expiry       │
+  │  oauth_provider, oauth_uid │
+  │  pro_user           │
+  │  created_at         │
+  │  updated_at         │
+  └──────────┬──────────┘
+             │
+             │ 1:N
+             ├──────────────────────────────┐
+             │                              │
+             ▼                              ▼
+  ┌─────────────────────┐       ┌─────────────────────┐
+  │      Project        │       │        Todo         │
+  │  id (PK)            │       │  id (PK)            │
+  │  user_id (FK)       │       │  user_id (FK)       │
+  │  serial_number (UQ) │◄──────┤  project_id (FK?)   │
+  │  name               │  0..1 │  title              │
+  │  remark             │       │  status (enum)      │
+  │  expected_finish_date│      │  due_date           │
+  │  status (enum)      │       │  created_at         │
+  │  created_at         │       │  updated_at         │
+  │  updated_at         │       └─────────────────────┘
+  └─────────────────────┘
+
+  DELETE User  → CASCADE deletes their Projects and Todos.
+  DELETE Project → Todo.project_id set to NULL (task stays).
+
+
+================================================================================
+ENUMS (stored as PostgreSQL enum types)
+================================================================================
+
+TaskStatus
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+
+ProjectStatus
+  ACTIVE
+  ON_HOLD
+  COMPLETED
+  ARCHIVED
+
+
+================================================================================
+TABLE: "User"  (Prisma model: User)
+================================================================================
+Physical table name in PostgreSQL: "User" (quoted, Prisma default)
+
+Column name (DB)     Type              Nullable  Notes
+-------------------- ----------------- --------- ---------------------------
+id                   TEXT              NOT NULL  PK, UUID default
+email                TEXT              NOT NULL  UNIQUE
+password_hash        TEXT              NOT NULL  bcrypt hash
+first_name           VARCHAR(255)      NULL
+last_name            VARCHAR(255)      NULL
+reset_token          VARCHAR(255)      NULL      UNIQUE when set (multiple NULLs OK)
+token_expiry         TIMESTAMP(3)      NULL      e.g. password-reset expiry
+oauth_provider       VARCHAR(50)       NULL      e.g. google, github
+oauth_uid            VARCHAR(255)      NULL      provider subject id
+pro_user             INTEGER           NOT NULL  default 0 (numeric flag / tier)
+created_at           TIMESTAMP(3)      NOT NULL  default now()
+updated_at           TIMESTAMP(3)      NOT NULL  auto-updated
+
+Indexes / constraints
+  - PRIMARY KEY (id)
+  - UNIQUE (email)
+  - UNIQUE (reset_token)
+  - INDEX (oauth_provider, oauth_uid)
+
+
+================================================================================
+TABLE: "Project"  (Prisma model: Project)
+================================================================================
+
+Column name (DB)     Type              Nullable  Notes
+-------------------- ----------------- --------- ---------------------------
+id                   TEXT              NOT NULL  PK, UUID default
+user_id              TEXT              NOT NULL  FK → User.id, ON DELETE CASCADE
+serial_number        INTEGER           NOT NULL  UNIQUE, autoincrement (sequence)
+name                 TEXT              NOT NULL
+remark               TEXT              NULL
+expected_finish_date TIMESTAMP(3)      NULL
+status               "ProjectStatus"   NOT NULL  default ACTIVE
+created_at           TIMESTAMP(3)      NOT NULL  default now()
+updated_at           TIMESTAMP(3)      NOT NULL  auto-updated
+
+Indexes / constraints
+  - PRIMARY KEY (id)
+  - UNIQUE (serial_number)
+  - INDEX (user_id)
+  - INDEX (expected_finish_date)
+  - INDEX (status)
+  - FOREIGN KEY (user_id) REFERENCES "User"(id)
+
+
+================================================================================
+TABLE: "Todo"  (Prisma model: Todo)
+================================================================================
+
+Column name (DB)     Type              Nullable  Notes
+-------------------- ----------------- --------- ---------------------------
+id                   TEXT              NOT NULL  PK, UUID default
+user_id              TEXT              NOT NULL  FK → User.id, ON DELETE CASCADE
+project_id           TEXT              NULL      FK → Project.id, ON DELETE SET NULL
+title                TEXT              NOT NULL
+status               "TaskStatus"      NOT NULL  default NOT_STARTED
+due_date             TIMESTAMP(3)      NULL
+created_at           TIMESTAMP(3)      NOT NULL  default now()
+updated_at           TIMESTAMP(3)      NOT NULL  auto-updated
+
+Indexes / constraints
+  - PRIMARY KEY (id)
+  - INDEX (user_id)
+  - INDEX (project_id)
+  - INDEX (due_date)
+  - FOREIGN KEY (user_id) REFERENCES "User"(id)
+  - FOREIGN KEY (project_id) REFERENCES "Project"(id)
+
+
+================================================================================
+END
+================================================================================

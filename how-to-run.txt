@@ -1,0 +1,19 @@
+to see the database use any PostgreSQL client (DBeaver, TablePlus, psql) with DATABASE_URL.
+
+to run frontend
+npm run built && npm run dev
+
+and to run backend use this 
+cd backend
+node setup-db.js
+npm run db:seed
+npm run dev
+
+First-time or new database: run setup-db.js once to create tables (like cheque-printing). Optional: npm run db:seed for demo data.
+
+Set DATABASE_URL and JWT_SECRET (16+ chars) in backend/.env. For remote Postgres with SSL, set DB_SSL=true.
+
+
+
+build for production code command
+VITE_API_URL=https://api.rohitkesharwani.com npm run build

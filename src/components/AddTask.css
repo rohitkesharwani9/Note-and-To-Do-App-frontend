@@ -1,0 +1,639 @@
+.add-task-backdrop {
+  cursor: default;
+}
+
+.add-task-sheet {
+  width: 100%;
+  max-width: min(680px, calc(100vw - 24px));
+  padding-left: 26px;
+  padding-right: 26px;
+  padding-bottom: max(20px, calc(12px + env(safe-area-inset-bottom, 0px)));
+  box-sizing: border-box;
+  transition:
+    border-width 0.28s ease,
+    border-color 0.28s ease,
+    margin 0.28s ease,
+    box-shadow 0.28s ease;
+  /* Hide scrollbar (mobile-like); wheel / trackpad / touch scrolling unchanged */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.add-task-sheet::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+.add-task-error {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b91c1c;
+  background: rgba(254, 226, 226, 0.65);
+  border: 1px solid rgba(248, 113, 113, 0.45);
+}
+
+/* Above Cancel / Add task — validation + date order (viewport near sticky actions) */
+.add-task-footer-err-host {
+  min-height: 0;
+}
+
+.add-task-footer-err-wrap {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-task-footer-err-wrap .add-task-footer-err-item {
+  margin: 0;
+}
+
+.add-task-footer-err-item--date {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.add-task-sheet .modal-btn-primary.add-task-btn--saved,
+.app-home-add-task-flow-sheet .modal-btn-primary.add-task-btn--saved,
+.add-note-sheet .modal-btn-primary.add-task-btn--saved {
+  cursor: default;
+  min-width: 0;
+  color: #15803d !important;
+  text-shadow: none;
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 45%, #bbf7d0 100%) !important;
+  box-shadow:
+    4px 4px 10px rgba(34, 197, 94, 0.2),
+    -2px -2px 8px rgba(255, 255, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.add-task-save-success-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-task-save-success-icon {
+  flex-shrink: 0;
+  color: #22c55e;
+}
+
+.add-task-save-success-text {
+  font-weight: 650;
+  color: #15803d;
+}
+
+/* ── Edit task: delete icon button ── */
+.edit-task-delete-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--app-btn-height, 44px);
+  height: var(--app-btn-height, 44px);
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  border-radius: var(--app-btn-radius, 14px);
+  background: rgba(254, 226, 226, 0.45);
+  cursor: pointer;
+  box-shadow: var(--app-btn-shadow);
+  transition: box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.edit-task-delete-btn:hover:not(:disabled) {
+  background: rgba(254, 202, 202, 0.65);
+  box-shadow: var(--app-btn-shadow-hover);
+}
+
+.edit-task-delete-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.edit-task-delete-btn--done {
+  background: rgba(254, 226, 226, 0.6);
+  border-color: rgba(220, 38, 38, 0.35);
+  cursor: default;
+}
+
+.add-task-section {
+  margin-top: 14px;
+}
+
+.add-task-section--fields {
+  margin-top: 0;
+}
+
+.add-task-label-spaced {
+  display: block;
+  margin-top: 12px;
+}
+
+.add-task-textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  line-height: 1.45;
+  resize: vertical;
+  min-height: 0;
+  /* Match sheet: scroll without visible scrollbar (wheel / touch still works) */
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.add-task-textarea::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+.add-task-textarea--title {
+  min-height: 44px;
+  max-height: 72px;
+}
+
+.add-task-textarea--body {
+  min-height: 120px;
+  max-height: 280px;
+}
+
+.add-task-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.add-task-sub-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Rule 14: match /app-home Sign out — same font, radius, border, surface, outward shadows */
+.add-task-chip {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  min-height: var(--app-btn-height, 44px);
+  padding: 11px 16px;
+  border-radius: var(--app-btn-radius, 14px);
+  font-size: var(--app-btn-font-size, 0.88rem);
+  font-weight: 650;
+  color: var(--accent-deep);
+  background: var(--surface-mid);
+  box-shadow: var(--app-btn-shadow);
+  text-align: center;
+  line-height: 1.25;
+  touch-action: manipulation;
+  transition: box-shadow 0.18s ease;
+}
+
+.add-task-chip:not(.add-task-chip--sub):not(:disabled):hover {
+  box-shadow: var(--app-btn-shadow-hover);
+}
+
+.add-task-chip:not(.add-task-chip--sub):not(:disabled):active {
+  box-shadow: var(--app-btn-shadow);
+}
+
+/* Sub chips: theme colors + shadow from inline style — subtle hover */
+.add-task-chip--sub:not(:disabled):hover {
+  filter: brightness(1.05);
+}
+
+.add-task-chip--sub:not(:disabled):active {
+  filter: brightness(0.97);
+}
+
+.add-task-chip--main {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.add-task-chip--sub {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* Sub category selected colors come from inline theme (border + gradient per sub) */
+
+/* Selected main: same primary treatment as toolbar “on” + modal primary */
+.add-task-chip--on {
+  color: #f5f8fc;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+  background: linear-gradient(180deg, #5080b0 0%, var(--accent) 35%, var(--accent-deep) 100%);
+  box-shadow: var(--app-btn-primary-shadow);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.add-task-chip--on:hover:not(:disabled) {
+  box-shadow: var(--app-btn-primary-shadow-hover);
+}
+
+.add-task-char-hint {
+  margin: 6px 2px 0;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.add-task-modal-actions {
+  margin-top: 14px;
+}
+
+/* Modal footer: align with Sign out (secondary) + shared primary */
+.add-task-sheet .modal-btn.modal-btn-secondary {
+  font-size: var(--app-btn-font-size, 0.88rem);
+  padding: 11px 16px;
+  border-radius: var(--app-btn-radius, 14px);
+  color: var(--accent-deep);
+  background: var(--surface-mid);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--app-btn-shadow);
+  transition: box-shadow 0.18s ease;
+}
+
+.add-task-sheet .modal-btn.modal-btn-secondary:hover:not(:disabled) {
+  box-shadow: var(--app-btn-shadow-hover);
+}
+
+.add-task-sheet .modal-btn.modal-btn-primary {
+  font-size: var(--app-btn-font-size, 0.88rem);
+  padding: 11px 16px;
+  border-radius: var(--app-btn-radius, 14px);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: var(--app-btn-primary-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: box-shadow 0.18s ease;
+}
+
+.add-task-sheet .modal-btn.modal-btn-primary:hover:not(:disabled) {
+  box-shadow: var(--app-btn-primary-shadow-hover);
+}
+
+/* Category accordion: same row UX on all viewports */
+.add-task-cat-acc {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.add-task-cat-acc .add-task-main-grid {
+  margin-top: 0;
+}
+
+/* Parent row + options read as one card; left rail + tint when expanded */
+.add-task-m-block {
+  position: relative;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: var(--surface-mid);
+  box-shadow: var(--app-btn-shadow);
+  overflow: hidden;
+  transition:
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    border-left-width 0.28s ease,
+    border-left-color 0.28s ease;
+}
+
+.add-task-m-block .add-task-m-row {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.add-task-m-block:not(.add-task-m-block--expanded) .add-task-m-row {
+  border-radius: 13px;
+}
+
+.add-task-m-block--expanded {
+  box-shadow:
+    8px 10px 20px rgba(90, 100, 115, 0.22),
+    -4px -4px 12px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.add-task-m-block--main.add-task-m-block--expanded {
+  border-left: 5px solid #3d6b9a;
+  border-color: rgba(61, 107, 154, 0.38);
+}
+
+.add-task-m-block--sub.add-task-m-block--expanded {
+  border-left: 5px solid #0f766e;
+  border-color: rgba(13, 148, 136, 0.38);
+}
+
+.add-task-m-block--expanded .add-task-m-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.32);
+}
+
+.add-task-m-block--expanded .add-task-m-row--open {
+  box-shadow: none;
+}
+
+.add-task-m-slot {
+  margin: 0;
+  padding: 10px 12px 14px 14px;
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(255, 255, 255, 0.1) 55%,
+    rgba(61, 107, 154, 0.06) 100%
+  );
+}
+
+.add-task-m-block--sub.add-task-m-block--expanded .add-task-m-slot {
+  background: linear-gradient(
+    165deg,
+    rgba(255, 255, 255, 0.38) 0%,
+    rgba(204, 251, 241, 0.2) 45%,
+    rgba(13, 148, 136, 0.08) 100%
+  );
+}
+
+/* One line with slot background only (no inner pill) */
+.add-task-m-slot-line {
+  margin: 0 0 10px;
+  padding: 0;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.add-task-m-slot-line strong {
+  color: var(--accent-deep);
+  font-weight: 750;
+}
+
+.add-task-m-slot-pick {
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .add-task-m-block {
+    transition: none;
+  }
+}
+
+.add-task-m-pair {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.add-task-date-live-error {
+  margin: 8px 4px 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #b43a3a;
+  line-height: 1.35;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.add-task-date-live-error-icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Full-screen dim behind CalendarMonthPicker (same pattern as Edit project details) */
+.add-task-cal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  background: rgba(30, 40, 52, 0.2);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.add-task-m-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--app-btn-radius, 14px);
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--accent-deep);
+  background: var(--surface-mid);
+  box-shadow: var(--app-btn-shadow);
+  touch-action: manipulation;
+  transition: box-shadow 0.18s ease;
+}
+
+.add-task-m-row:hover:not(:disabled) {
+  box-shadow: var(--app-btn-shadow-hover);
+}
+
+.add-task-m-row:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.add-task-m-row--open {
+  box-shadow:
+    inset 3px 3px 8px var(--shade),
+    inset -2px -2px 6px var(--highlight),
+    0 0 0 1px rgba(61, 107, 154, 0.22);
+}
+
+.add-task-m-row-label {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.add-task-m-row-value {
+  font-size: 0.88rem;
+  font-weight: 650;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.add-task-m-row-trail {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.add-task-m-chevron-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--accent-deep);
+  opacity: 0.88;
+  transform-origin: 50% 50%;
+}
+
+.add-task-m-row--open .add-task-m-chevron-wrap:not(.add-task-m-chevron-wrap--muted) {
+  opacity: 1;
+}
+
+.add-task-m-chevron-wrap--muted {
+  opacity: 0.32;
+}
+
+.add-task-m-cal-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--accent-deep);
+  opacity: 0.82;
+}
+
+.add-task-m-row:hover:not(:disabled) .add-task-m-cal-wrap {
+  opacity: 1;
+}
+
+.add-task-sheet .add-task-modal-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  justify-content: stretch;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.add-task-sheet .add-task-modal-actions .modal-btn {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  min-height: var(--app-btn-height, 48px);
+}
+
+@media (min-width: 769px) {
+  /* Tighter than default modal-sheet (24px / 20px) — desktop Add task only */
+  .add-task-sheet.modal-sheet {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    /* Upper bound for tall forms; height still follows content — no forced scroll when everything fits */
+    max-height: calc(100dvh - 48px);
+    overflow-x: hidden;
+    /* auto = scrollbar only when content is taller than max-height */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .add-task-main-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .add-task-chip--main {
+    min-width: 0;
+    padding: 11px 14px;
+  }
+
+  .add-task-chip--sub {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .add-task-sub-row {
+    gap: 10px;
+  }
+
+  .add-task-sheet .add-task-modal-actions .modal-btn {
+    min-width: 120px;
+    min-height: var(--app-btn-height, 44px);
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile only — rules below override base; desktop (769px+) unchanged */
+  .add-task-backdrop.modal-backdrop {
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: max(20px, env(safe-area-inset-top, 0px));
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .add-task-sheet {
+    width: 100%;
+    max-width: none;
+    margin: 0 max(12px, env(safe-area-inset-left, 0px)) 0
+      max(12px, env(safe-area-inset-right, 0px));
+    height: calc(
+      100dvh - max(20px, env(safe-area-inset-top, 0px)) -
+        max(20px, env(safe-area-inset-bottom, 0px))
+    );
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    border-radius: 22px;
+    padding-left: max(18px, env(safe-area-inset-left, 0px));
+    padding-right: max(18px, env(safe-area-inset-right, 0px));
+    padding-top: 18px;
+    padding-bottom: max(18px, calc(10px + env(safe-area-inset-bottom, 0px)));
+    box-sizing: border-box;
+  }
+
+  .add-task-section {
+    margin-top: 12px;
+  }
+
+  .add-task-section--fields {
+    margin-top: 0;
+  }
+
+  .add-task-textarea--body {
+    max-height: 200px;
+  }
+
+  .add-task-char-hint {
+    font-size: 0.68rem;
+  }
+
+  /* Main category: tighter chip grid on small screens; 4 columns from 769px up */
+  .add-task-main-grid {
+    gap: 8px;
+  }
+}

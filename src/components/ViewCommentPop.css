@@ -1,0 +1,261 @@
+.view-comment-sheet {
+  max-height: min(92dvh, 680px);
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Same as Add task save success (AddTask.css scopes green state to .add-task-sheet) */
+.view-comment-sheet .modal-btn-primary.add-task-btn--saved {
+  cursor: default;
+  min-width: 0;
+  color: #15803d !important;
+  text-shadow: none;
+  background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 45%, #bbf7d0 100%) !important;
+  box-shadow:
+    4px 4px 10px rgba(34, 197, 94, 0.2),
+    -2px -2px 8px rgba(255, 255, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+/* Mobile only: center comment sheet; AddTask uses flex-start on same backdrop classes */
+@media (max-width: 768px) {
+  .view-comment-backdrop.modal-backdrop.add-task-backdrop {
+    align-items: center;
+    justify-content: center;
+    padding: max(16px, var(--safe-top)) max(18px, env(safe-area-inset-left, 0px))
+      max(16px, var(--safe-bottom)) max(18px, env(safe-area-inset-right, 0px));
+  }
+}
+
+.view-comment-scroll-hint {
+  margin: 0 0 12px;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--text-muted, #999);
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.view-comment-body {
+  min-height: 60px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.view-comment-body::-webkit-scrollbar {
+  display: none;
+}
+
+.view-comment-body--locked {
+  overflow: hidden;
+}
+
+.view-comment-muted {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--text-muted, #888);
+  padding: 18px 0;
+}
+
+.view-comment-error {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #dc2626;
+  padding: 18px 0;
+}
+
+.view-comment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.view-comment-item {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-mid, #f4f4f5);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    3px 3px 8px rgba(0, 0, 0, 0.06),
+    -2px -2px 6px rgba(255, 255, 255, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.view-comment-list--editing .view-comment-item:not(.view-comment-item--editing) {
+  filter: blur(10px);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.view-comment-item--editing {
+  border-color: rgba(61, 107, 154, 0.35);
+}
+
+.view-comment-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.view-comment-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.view-comment-icon-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--accent-deep, #3d5af1);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.view-comment-icon-emoji {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.view-comment-edit-wrap {
+  margin-top: 8px;
+}
+
+.view-comment-edit-input {
+  width: 100%;
+  min-height: 82px;
+  resize: none;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.view-comment-edit-input::-webkit-scrollbar {
+  display: none;
+}
+
+.view-comment-edit-date {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.view-comment-edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.view-comment-cal-wrap {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: grid;
+  place-items: center;
+  padding: max(16px, var(--safe-top)) 18px max(16px, var(--safe-bottom));
+  pointer-events: none;
+}
+
+.view-comment-cal-wrap > * {
+  pointer-events: auto;
+}
+
+.view-comment-edit-date-btn {
+  text-align: left;
+}
+
+.edit-task-delete-btn {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--app-btn-height, 44px);
+  height: var(--app-btn-height, 44px);
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  border-radius: var(--app-btn-radius, 14px);
+  background: rgba(254, 226, 226, 0.45);
+  cursor: pointer;
+}
+
+/* Match Edit task (AddTask.css) delete success — higher specificity than rule above */
+.view-comment-edit-actions .edit-task-delete-btn.edit-task-delete-btn--done {
+  background: rgba(254, 226, 226, 0.6);
+  border-color: rgba(220, 38, 38, 0.35);
+  cursor: default;
+}
+
+.view-comment-error-inline {
+  margin: 8px 2px 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #b43a3a;
+}
+
+.view-comment-date {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--accent-deep, #3d5af1);
+  margin-bottom: 4px;
+}
+
+.view-comment-text {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--text-primary, #1a1a1a);
+  line-height: 1.45;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.view-comment-emoji {
+  margin: 8px 0 0;
+  font-size: 1.05rem;
+}
+
+.view-comment-reaction-row {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.view-comment-reaction-btn {
+  min-width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.view-comment-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+@media (max-width: 520px) {
+  .view-comment-item {
+    padding: 10px 12px;
+  }
+  .view-comment-pagination {
+    gap: 8px;
+  }
+}

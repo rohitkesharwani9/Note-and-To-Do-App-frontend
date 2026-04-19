@@ -1,0 +1,6 @@
+[build]
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+# Vite inlines env at build time. In Netlify: Site settings → Environment variables
+# add VITE_API_URL = https://api.rohitkesharwani.com (no trailing slash), then redeploy.

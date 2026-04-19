@@ -1,0 +1,592 @@
+.cal-strip-outer {
+  width: 100%;
+  min-width: 0;
+}
+
+.cal-strip-day-outer {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+}
+
+.cal-strip-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.cal-strip-header-anchor {
+  position: relative;
+  z-index: 50;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.cal-strip-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.cal-strip-header-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.cal-strip-quick {
+  flex: 0 0 auto;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: var(--accent-deep);
+  background: var(--surface-mid);
+  box-shadow:
+    4px 4px 10px var(--shade),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  border: none;
+  touch-action: manipulation;
+  min-height: 44px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.cal-strip-quick:hover {
+  box-shadow:
+    4px 4px 10px var(--shade),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.cal-strip-quick:active {
+  box-shadow:
+    inset 3px 3px 9px var(--shade),
+    inset -2px -2px 7px var(--highlight);
+}
+
+.cal-strip-quick--active {
+  color: #f5f8fc;
+  background: linear-gradient(180deg, #5080b0 0%, var(--accent) 35%, var(--accent-deep) 100%);
+  box-shadow:
+    4px 4px 12px rgba(85, 95, 110, 0.45),
+    -2px -2px 8px rgba(255, 255, 255, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cal-strip-quick--active:hover {
+  color: #f5f8fc;
+}
+
+.cal-strip-month-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  color: var(--accent-deep);
+  background: var(--surface-mid);
+  box-shadow:
+    4px 4px 10px var(--shade),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  border: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+}
+
+.cal-strip-month-trigger:hover {
+  box-shadow:
+    4px 4px 10px var(--shade),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.cal-strip-month-trigger:active {
+  box-shadow:
+    inset 4px 4px 10px var(--shade),
+    inset -2px -2px 8px var(--highlight);
+}
+
+.cal-strip-month-label {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: 0;
+  color: inherit;
+}
+
+.cal-strip-month-chevron-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-deep);
+  opacity: 0.92;
+}
+
+.cal-month-picker-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(28, 36, 48, 0.22);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.cal-month-picker-host {
+  position: relative;
+  z-index: 50;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cal-month-picker-host--end {
+  align-items: flex-end;
+}
+
+.cal-month-picker-host--with-head {
+  width: min(360px, calc(100% - 18px));
+  border-radius: 20px;
+  padding: 12px 12px 10px;
+  background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0) 45%
+    ),
+    var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow:
+    14px 16px 30px rgba(70, 80, 95, 0.3),
+    -8px -8px 18px rgba(255, 255, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.cal-month-picker-overlay-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cal-month-picker-overlay-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.cal-month-picker-overlay-close {
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--accent-deep);
+  background: var(--surface-mid);
+  box-shadow:
+    3px 3px 8px var(--shade),
+    -2px -2px 6px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.58);
+}
+
+.cal-month-picker-wrap {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  width: min(320px, calc(100vw - 32px));
+  padding: 16px 14px 14px;
+  border-radius: 22px;
+  background: linear-gradient(
+      165deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0) 45%
+    ),
+    var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    12px 16px 32px rgba(90, 100, 115, 0.28),
+    -8px -8px 20px rgba(255, 255, 255, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.cal-month-picker-wrap--align-end {
+  left: auto !important;
+  right: 0;
+  transform: none;
+}
+
+.cal-month-picker-wrap--inline {
+  position: relative;
+  top: auto;
+  left: auto !important;
+  right: auto;
+  width: 100%;
+  margin-top: 0;
+  transform: none !important;
+}
+
+.cal-strip-quick-dates {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cal-month-picker-year {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 0 2px;
+}
+
+.cal-month-picker-year-value {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  min-width: 4.5ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.cal-month-picker-year-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: var(--accent-deep);
+  background: linear-gradient(145deg, var(--highlight), var(--surface-mid));
+  box-shadow:
+    4px 4px 10px var(--shade),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  touch-action: manipulation;
+}
+
+.cal-month-picker-month-btn {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  color: var(--accent-deep);
+  background: linear-gradient(145deg, var(--highlight), var(--surface-mid));
+  box-shadow:
+    4px 4px 10px var(--shade),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  touch-action: manipulation;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.cal-month-picker-month-btn:active {
+  box-shadow:
+    inset 3px 3px 8px var(--shade),
+    inset -2px -2px 6px var(--highlight);
+}
+
+.cal-month-picker-year-btn:active {
+  box-shadow:
+    inset 3px 3px 8px var(--shade),
+    inset -2px -2px 6px var(--highlight);
+}
+
+.cal-month-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.cal-month-picker-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.cal-month-picker-cell {
+  border: none;
+  border-radius: 14px;
+  padding: 12px 8px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: var(--text);
+  background: linear-gradient(145deg, var(--highlight), var(--surface-mid));
+  box-shadow:
+    4px 4px 10px rgba(160, 170, 188, 0.45),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  touch-action: manipulation;
+  min-height: 44px;
+}
+
+.cal-month-picker-cell:hover {
+  color: var(--accent-deep);
+}
+
+.cal-month-picker-cell:active {
+  box-shadow:
+    inset 3px 3px 8px var(--shade),
+    inset -2px -2px 6px var(--highlight);
+}
+
+.cal-month-picker-cell--selected {
+  color: #f5f8fc;
+  border: none;
+  overflow: hidden;
+  background-color: #6ba3d9;
+  background-image: linear-gradient(180deg, #6ba3d9 0%, #4d8bc8 35%, #3d6b9a 75%, #2d5378 100%);
+  background-clip: padding-box;
+  box-shadow: 0 3px 12px rgba(45, 83, 120, 0.35);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cal-month-picker-cell--selected:hover {
+  color: #fff;
+}
+
+.cal-month-picker-cell--current {
+  border: 2.5px solid #22c55e;
+}
+
+.cal-month-picker-year-value--selected {
+  border: 2.5px solid #eab308;
+  border-radius: 10px;
+  padding: 2px 10px;
+}
+
+.cal-month-picker-year-value--current.cal-month-picker-year-value--selected {
+  outline: 2.5px solid #22c55e;
+  outline-offset: 3px;
+  border: 2.5px solid #eab308;
+  border-radius: 10px;
+  padding: 2px 10px;
+}
+
+@media (min-width: 769px) {
+  .cal-month-picker-backdrop {
+    background: rgba(28, 36, 48, 0.12);
+    backdrop-filter: blur(1px);
+  }
+
+  .cal-month-picker-wrap {
+    width: 300px;
+    padding: 18px 16px 16px;
+  }
+
+  .cal-strip-header-row {
+    max-width: 560px;
+    gap: 14px;
+  }
+
+  .cal-strip-quick {
+    font-size: 0.88rem;
+    padding: 10px 18px;
+  }
+
+  .cal-strip-month-trigger {
+    padding: 9px 16px 9px 18px;
+  }
+
+  .cal-strip-month-label {
+    font-size: 1.12rem;
+  }
+}
+
+.cal-strip-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  /* Symmetric vertical padding so the strip’s visual center matches the flex cross-axis center. */
+  padding: 8px 0;
+  /* No scroll-snap: it fights programmatic centering and pulls the strip to the wrong snap. */
+  user-select: none;
+  touch-action: pan-x;
+}
+
+.cal-strip-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cal-strip-scroll:active {
+  cursor: grabbing;
+}
+
+.cal-strip-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: max-content;
+  padding: 4px 42vw;
+  box-sizing: border-box;
+}
+
+/* Layer hint: can reduce 1px seams when the pill is transformed (Framer / fisheye). */
+.cal-strip-day-wrap {
+  flex: 0 0 auto;
+  transform: translateZ(0);
+}
+
+.cal-strip-day {
+  flex: 0 0 auto;
+  width: 56px;
+  min-height: 76px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 6px;
+  color: var(--text);
+  background: linear-gradient(180deg, #f0f2f9 0%, #e4e8f2 55%, #d6dbe8 100%);
+  box-shadow:
+    5px 5px 10px rgba(160, 170, 188, 0.55),
+    -4px -4px 10px rgba(255, 255, 255, 0.95),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  font-family: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  transform: scale(var(--cal-focus-scale, 1));
+  opacity: var(--cal-focus-opacity, 1);
+  transition:
+    transform 0.14s ease-out,
+    opacity 0.14s ease-out,
+    box-shadow 0.2s ease;
+  will-change: transform, opacity;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.cal-strip-day--today:not(.cal-strip-day--selected) {
+  border: 2.5px solid #22c55e;
+  box-shadow:
+    5px 5px 10px rgba(160, 170, 188, 0.55),
+    -4px -4px 10px rgba(255, 255, 255, 0.95);
+}
+
+.cal-strip-day--selected {
+  color: #fff;
+  border: none;
+  overflow: hidden;
+  background-color: #6ba3d9;
+  background-image: linear-gradient(180deg, #6ba3d9 0%, #4d8bc8 35%, #3d6b9a 70%, #2d5378 100%);
+  background-clip: padding-box;
+  box-shadow: 0 4px 16px rgba(45, 83, 120, 0.4);
+  opacity: 1;
+  transform: scale(calc(var(--cal-focus-scale, 1) * 1.06));
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cal-strip-num {
+  font-size: 1.28rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.cal-strip-wd {
+  font-size: 0.65rem;
+  font-weight: 650;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+.cal-strip-day--selected .cal-strip-wd {
+  opacity: 0.95;
+}
+
+.cal-strip-day--selected .cal-strip-num {
+  color: #fff;
+}
+
+@media (min-width: 769px) {
+  .cal-strip-inner {
+    padding: 4px 36vw;
+    gap: 14px;
+  }
+
+  .cal-strip-day {
+    width: 60px;
+    min-height: 80px;
+  }
+
+  .cal-strip-num {
+    font-size: 1.38rem;
+  }
+
+  .cal-strip-month-label {
+    font-size: 1.12rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .cal-strip-header-row {
+    gap: 8px;
+    padding: 0 2px;
+    max-width: 100%;
+  }
+
+  .cal-strip-quick {
+    font-size: 0.78rem;
+    padding: 8px 12px;
+    letter-spacing: 0.01em;
+  }
+
+  .cal-strip-inner {
+    padding: 4px 32vw;
+    gap: 10px;
+  }
+
+  .cal-strip-day {
+    width: 52px;
+    min-height: 72px;
+  }
+
+  .cal-strip-num {
+    font-size: 1.2rem;
+  }
+}

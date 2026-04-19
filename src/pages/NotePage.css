@@ -1,0 +1,569 @@
+/* Zoom panel: cap at 90vh; scroll lives in .note-page-zoom-scroll only */
+.note-page-zoom .saved-link-zoom__panel {
+  max-height: min(90vh, 720px);
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.note-page-zoom .saved-link-zoom__inner {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+/* Scrollable note / to-do body — no visible scrollbar */
+.note-page-zoom-scroll {
+  text-align: left;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  min-height: 0;
+}
+
+.note-page-zoom-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Grid tiles: distinguish Note vs To-Do type line */
+.saved-link-note .note-page-tile-type {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.saved-link-note .note-page-tile-type--note {
+  color: #1e3a8a;
+  background: linear-gradient(
+    180deg,
+    rgba(59, 130, 246, 0.2) 0%,
+    rgba(59, 130, 246, 0.1) 100%
+  );
+  border-color: rgba(37, 99, 235, 0.35);
+}
+
+.saved-link-note .note-page-tile-type--todo {
+  color: #065f46;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 185, 129, 0.22) 0%,
+    rgba(16, 185, 129, 0.1) 100%
+  );
+  border-color: rgba(5, 150, 105, 0.38);
+}
+
+/* To-Do type strip: centered label + status icon on the right */
+.saved-link-note .note-page-tile-type--row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.saved-link-note .note-page-tile-type-leader {
+  min-width: 0;
+}
+
+.saved-link-note .note-page-tile-type-text {
+  text-align: center;
+}
+
+.saved-link-note .note-page-tile-type-badge-wrap {
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.saved-link-note .note-page-tile-type-icon {
+  display: block;
+}
+
+.saved-link-note .note-page-tile-type-icon--done {
+  color: #14532d;
+}
+
+.saved-link-note .note-page-tile-type-icon--open {
+  color: #991b1b;
+}
+
+/* To-Do tiles: checkbox + strikethrough when done */
+.note-page-tile-todo-block {
+  width: 100%;
+  max-height: 8.5rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  text-align: left;
+}
+
+.note-page-tile-todo-block::-webkit-scrollbar {
+  display: none;
+}
+
+.note-page-todo-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: default;
+  pointer-events: none;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: inherit;
+  margin: 0;
+}
+
+.note-page-todo-check-slot,
+.note-page-todo-line-text,
+.note-page-todo-line-text-inner {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.note-page-todo-check-row input[type='checkbox'] {
+  flex-shrink: 0;
+  margin-top: 2px;
+  width: 16px;
+  height: 16px;
+  accent-color: #059669;
+  cursor: pointer;
+}
+
+.note-page-todo-line-text {
+  flex: 0 0 auto;
+  display: inline;
+  min-width: 0;
+  word-break: break-word;
+  color: #022c22;
+}
+
+.note-page-todo-line-text-inner {
+  display: inline;
+}
+
+.note-page-todo-line-text--done {
+  text-decoration: line-through;
+  opacity: 0.82;
+  color: #064e3b;
+}
+
+.note-page-todo-zoom-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.note-page-todo-check-row--zoom {
+  font-size: 0.95rem;
+}
+
+/* Open/zoom: row is a div (not label); checkbox onChange + text inner onClick toggle. */
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom {
+  display: flex;
+  align-self: flex-start;
+  align-items: flex-start;
+  width: fit-content;
+  max-width: 100%;
+  box-sizing: border-box;
+  gap: 8px;
+  margin: 0;
+  cursor: default;
+}
+
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom .note-page-todo-check-slot {
+  pointer-events: auto;
+}
+
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom:not(.note-page-todo-check-row--saving) .note-page-todo-check-slot {
+  cursor: pointer;
+}
+
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom .note-page-todo-check-slot input[type='checkbox'] {
+  cursor: pointer;
+}
+
+/* Outer wrapper: no hit box past text; inner span gets pointer + real line boxes */
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom .note-page-todo-line-text {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: inline;
+  max-width: 100%;
+  pointer-events: none;
+  cursor: default;
+}
+
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom:not(.note-page-todo-check-row--saving) .note-page-todo-line-text-inner {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom.note-page-todo-check-row--saving .note-page-todo-check-slot,
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom.note-page-todo-check-row--saving .note-page-todo-line-text,
+.note-page-todo-zoom-wrap .note-page-todo-check-row--zoom.note-page-todo-check-row--saving .note-page-todo-line-text-inner {
+  cursor: default;
+}
+
+.note-page-tile-todo-block--readonly .note-page-todo-check-row--readonly {
+  cursor: default;
+}
+
+.note-page-tile-todo-block--readonly .note-page-todo-check-row--readonly input[type='checkbox'] {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Grid tiles only: darker to-do line text than zoom */
+.note-page-tile-todo-block--readonly .note-page-todo-line-text {
+  color: #001811;
+}
+
+.note-page-tile-todo-block--readonly .note-page-todo-line-text--done {
+  color: #031c16;
+  opacity: 0.92;
+}
+
+.note-page-todo-check-slot {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  box-sizing: border-box;
+}
+
+.note-page-todo-check-slot input[type='checkbox'] {
+  margin-top: 0;
+}
+
+@keyframes note-page-todo-save-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.note-page-todo-save-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: #047857;
+  animation: note-page-todo-save-spin 0.75s linear infinite;
+}
+
+.note-page-todo-save-spinner svg {
+  display: block;
+}
+
+.note-page-todo-check-row--saving {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Rich HTML from saved notes (zoom view) */
+.note-page-zoom-html {
+  text-align: left;
+  width: 100%;
+}
+
+.note-page-zoom-html p {
+  margin: 0.35em 0;
+}
+
+.note-page-zoom-html ul,
+.note-page-zoom-html ol {
+  margin: 0.35em 0;
+  padding-left: 1.25em;
+}
+
+/* Footer strip: two columns — meta (left) | delete (right), fixed height */
+.note-page-zoom-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 0 0 5rem;
+  height: 5rem;
+  min-height: 5rem;
+  max-height: 5rem;
+  overflow: hidden;
+}
+
+/* Column 1: Type / Added on — left-aligned, same horizontal padding on left and right */
+.note-page-zoom-footer__text {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 0 12px;
+}
+
+.note-page-zoom-footer__text .saved-link-note__meta,
+.note-page-zoom-footer__text .saved-link-note__date {
+  text-align: left !important;
+  padding: 0;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Column 2: to-do status icon + edit + delete */
+.note-page-zoom-footer__actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+  justify-self: end;
+  margin: 0 12px;
+}
+
+.note-page-zoom-footer__todo-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.note-page-zoom-footer__actions .saved-link-zoom__icon-btn {
+  margin: 0;
+}
+
+/* Pinned-only indicator on grid tiles (non-interactive; pin/unpin in zoom) */
+.note-page-pin-reorder-open {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #334155;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 2px 8px rgba(15, 23, 42, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.note-page-pin-reorder-open:hover {
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.note-page-pin-reorder-open__icon {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.note-page-pin-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 12px;
+  pointer-events: none;
+  user-select: none;
+  color: #1d4ed8;
+  background: rgba(219, 234, 254, 0.95);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 2px 8px rgba(15, 23, 42, 0.12);
+}
+
+.note-page-tile--pinned .saved-link-note__title {
+  padding-left: 44px;
+  padding-right: 44px;
+  box-sizing: border-box;
+}
+
+.note-page-zoom .saved-link-zoom__title {
+  padding-left: 48px;
+  padding-right: 48px;
+  box-sizing: border-box;
+}
+
+.saved-link-zoom__icon-btn.note-page-pin-btn-zoom--muted {
+  color: #94a3b8;
+}
+
+.saved-link-zoom__icon-btn.note-page-pin-btn-zoom--pinned {
+  color: #dc2626;
+}
+
+.note-page-zoom-footer__actions
+  .saved-link-zoom__icon-btn.note-page-pin-btn-zoom--muted:hover:not(:disabled) {
+  color: #64748b;
+}
+
+.note-page-zoom-footer__actions
+  .saved-link-zoom__icon-btn.note-page-pin-btn-zoom--pinned:hover:not(:disabled) {
+  color: #b91c1c;
+}
+
+.saved-link-zoom__icon-btn.note-page-pin-btn-zoom:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.note-page-pin-zoom-spinner {
+  color: inherit;
+}
+
+.note-page-pin-zoom-success {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #047857;
+}
+
+/* Toolbar: Add note + list mode filter (centered) — same control pattern as CalendarPage */
+.note-page-toolbar-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.note-page-toolbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.note-page-list-mode-toggle.calendar-view-toggle {
+  margin-bottom: 0;
+  max-width: min(440px, 100%);
+  width: 100%;
+}
+
+.note-page-search.saved-links-search {
+  margin-top: 0;
+  max-width: min(520px, 100%);
+}
+
+.calendar-view-toggle {
+  display: flex;
+  margin: 0 auto 16px;
+  padding: 5px;
+  gap: 4px;
+  border-radius: 18px;
+  background: var(--surface-mid);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 5px 5px 12px var(--shade),
+    inset -4px -4px 10px var(--highlight),
+    0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.calendar-view-toggle-seg {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  cursor: pointer;
+  border: none;
+  border-radius: 14px;
+  padding: 11px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: var(--text-muted);
+  background: transparent;
+  box-shadow: none;
+  transition: color 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.calendar-view-toggle-pill {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  z-index: 0;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.55) 0%, transparent 55%), var(--surface);
+  box-shadow:
+    4px 4px 10px rgba(90, 100, 115, 0.22),
+    -3px -3px 8px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+}
+
+.calendar-view-toggle-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.calendar-view-toggle-label--active {
+  color: var(--accent-deep);
+}
+
+@media (max-width: 768px) {
+  .note-page-toolbar-stack {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .note-page-toolbar-actions {
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: stretch;
+    gap: 8px;
+  }
+
+  /* Override global mobile `.login-primary { width: 100% }` so four toolbar buttons stay one row */
+  .app-home-root .note-page-toolbar-actions > .app-home-toolbar-btn {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+    margin-top: 0;
+  }
+
+  .note-page-list-mode-toggle.calendar-view-toggle {
+    max-width: none;
+  }
+
+  .calendar-view-toggle-seg {
+    font-size: 0.78rem;
+    padding: 10px 8px;
+  }
+}

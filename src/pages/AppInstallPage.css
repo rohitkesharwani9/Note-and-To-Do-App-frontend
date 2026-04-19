@@ -1,0 +1,65 @@
+.app-install-root {
+  min-height: 100dvh;
+}
+
+.app-install-section {
+  display: flex;
+  justify-content: center;
+}
+
+.app-install-card {
+  width: min(420px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 18px;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.4) 0%, transparent 45%), var(--surface);
+  box-shadow:
+    8px 8px 16px var(--shade),
+    -6px -6px 12px var(--highlight),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.app-install-logo {
+  width: 112px;
+  height: 112px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow:
+    4px 4px 12px rgba(0, 0, 0, 0.18),
+    -3px -3px 10px rgba(255, 255, 255, 0.4);
+}
+
+.app-install-btn {
+  min-width: 210px;
+}
+
+.app-install-hint {
+  margin: 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.app-install-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(24, 44, 72, 0.3) 0%, rgba(12, 18, 28, 0.72) 100%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.app-install-splash-logo {
+  width: min(36vw, 220px);
+  height: min(36vw, 220px);
+  border-radius: 28px;
+  object-fit: cover;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+}

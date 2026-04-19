@@ -1,0 +1,2 @@
+# SPA fallback — all routes serve index.html so /login, /profile, etc. work on refresh
+/*    /index.html   200

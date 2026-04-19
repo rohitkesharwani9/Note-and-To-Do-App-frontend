@@ -1,0 +1,113 @@
+.delete-confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px max(20px, env(safe-area-inset-right))
+    max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  background: rgba(0, 0, 0, 0.45);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.delete-confirm-sheet {
+  width: 100%;
+  max-width: 270px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.22),
+    0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.delete-confirm-body {
+  padding: 20px 16px 16px;
+  text-align: center;
+}
+
+.delete-confirm-title {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display',
+    'Segoe UI', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.022em;
+  color: #dc2626;
+}
+
+.delete-confirm-message {
+  margin: 10px 0 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.006em;
+  color: #dc2626;
+}
+
+.delete-confirm-hrule {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: rgba(60, 60, 67, 0.36);
+  transform: scaleY(0.5);
+  transform-origin: center top;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  align-items: stretch;
+  min-height: 44px;
+}
+
+.delete-confirm-btn {
+  flex: 1;
+  margin: 0;
+  padding: 11px 8px;
+  border: none;
+  cursor: pointer;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Segoe UI', system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background 0.12s ease;
+}
+
+.delete-confirm-btn:active {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.delete-confirm-btn--cancel {
+  color: #007aff;
+}
+
+.delete-confirm-btn--delete {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.delete-confirm-vrule {
+  width: 1px;
+  flex-shrink: 0;
+  background: rgba(60, 60, 67, 0.36);
+  transform: scaleX(0.5);
+  transform-origin: left center;
+}
+
+@media (min-width: 430px) {
+  .delete-confirm-sheet {
+    max-width: 292px;
+  }
+}

@@ -1,0 +1,627 @@
+/* Same stack order as before — above page chrome; ConfirmPop (1000) stays on top */
+.add-note-fly-layer.modal-backdrop {
+  z-index: 940;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Merge with LoginPage `.modal-sheet` — keep Add note look + fly-from-button target size */
+.add-note-sheet.modal-sheet {
+  width: 100%;
+  max-width: min(calc(100vw - 24px), max(60vw, 600px));
+  max-height: min(92vh, 900px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  background: #fafafa;
+  border: none;
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.28),
+    0 4px 16px rgba(0, 0, 0, 0.12);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  overflow: hidden;
+}
+
+/* Mobile & tablet: full width */
+@media (max-width: 768px) {
+  .add-note-sheet.modal-sheet {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Override AddTask mobile backdrop (align-items: flex-start) — center Add / Edit note vertically */
+  .add-note-fly-layer.add-task-backdrop.modal-backdrop:not(.note-reorder-fly-layer) {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* When description scrolls: fill viewport height, no vertical gap on backdrop (stay centered horizontally) */
+.add-note-fly-layer--full-bleed.modal-backdrop {
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.add-note-sheet--full-height.modal-sheet {
+  height: 100dvh;
+  max-height: 100dvh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-note-sheet--full-height .add-note-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.add-note-sheet--full-height .add-note-desc-editable {
+  max-height: none;
+}
+
+@media (max-width: 768px) {
+  .add-note-sheet--full-height.modal-sheet {
+    border-radius: 0;
+  }
+}
+
+.add-note-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fff;
+}
+
+.add-note-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.add-note-close {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.05);
+  color: #334155;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.add-note-close:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.add-note-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 16px 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.add-note-body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.add-note-toggle-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 14px;
+  padding: 3px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.add-note-toggle-btn {
+  flex: 1;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.add-note-toggle-btn--on {
+  background: #fff;
+  color: #0f172a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.add-note-toggle-row--frozen {
+  opacity: 0.92;
+}
+
+.add-note-toggle-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
+.add-note-toggle-btn--on:disabled {
+  opacity: 0.88;
+}
+
+.add-note-field-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.add-note-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background: #fff;
+}
+
+.add-note-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.add-note-char-hint {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-align: right;
+}
+
+.add-note-desc-wrap {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  min-height: 140px;
+  padding: 10px 12px;
+  background: #fff;
+  transition: background 0.2s ease;
+}
+
+.add-note-desc-editable {
+  min-height: 120px;
+  max-height: 280px;
+  overflow-y: auto;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: #0f172a;
+  outline: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.add-note-desc-editable::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.add-note-desc-editable:empty::before {
+  content: attr(data-placeholder);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.add-note-toolbar {
+  margin-top: 12px;
+}
+
+.add-note-toolbar-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.add-note-format-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-note-format-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-note-format-sep {
+  width: 1px;
+  align-self: stretch;
+  min-height: 32px;
+  margin: 0 10px;
+  background: rgba(15, 23, 42, 0.14);
+  flex-shrink: 0;
+  border-radius: 1px;
+}
+
+.add-note-fmt-svg-host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: inherit;
+}
+
+.add-note-tool-svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.add-note-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  color: #334155;
+}
+
+.add-note-icon-btn:hover {
+  background: #f1f5f9;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.add-note-icon-btn:active {
+  transform: scale(0.97);
+}
+
+.add-note-icon-btn--active {
+  background: #e0f2fe;
+  border-color: #38bdf8;
+  color: #0369a1;
+  box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.45);
+}
+
+.add-note-bg-section {
+  margin-top: 14px;
+}
+
+.add-note-bg-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.add-note-bg-row--second {
+  margin-top: 10px;
+}
+
+.add-note-bg-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.add-note-bg-circle--on {
+  border-color: #3b82f6;
+  box-shadow:
+    0 0 0 2px rgba(59, 130, 246, 0.35),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.add-note-bg-circle--normal {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  position: relative;
+}
+
+.add-note-bg-circle--normal::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 2px dashed #94a3b8;
+  opacity: 0.85;
+}
+
+.add-note-todo-add-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+.add-note-todo-add-row .add-note-input {
+  flex: 1;
+}
+
+.add-note-add-strip-btn {
+  flex-shrink: 0;
+  padding: 0 14px;
+  border-radius: 12px;
+  border: none;
+  background: #3b82f6;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.add-note-add-strip-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.add-note-todo-strips {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-note-todo-strip {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 0.92rem;
+  color: #0f172a;
+  list-style: none;
+}
+
+.add-note-todo-strip--draggable {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.add-note-todo-strip--draggable:active {
+  cursor: grabbing;
+}
+
+.add-note-todo-strip-check {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #059669;
+  cursor: pointer;
+}
+
+.add-note-todo-strip-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.add-note-todo-strip-text--done {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+.add-note-todo-strip-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.add-note-todo-strip-edit {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(59, 130, 246, 0.14);
+  color: #1d4ed8;
+  cursor: pointer;
+}
+
+.add-note-todo-strip-edit:hover {
+  background: rgba(59, 130, 246, 0.22);
+}
+
+.add-note-todo-strip--inactive {
+  pointer-events: none;
+}
+
+.add-note-todo-strip--editing {
+  border-color: rgba(59, 130, 246, 0.55);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.28);
+  background: linear-gradient(180deg, #eff6ff 0%, #fff 100%);
+}
+
+.add-note-todo-strip-editing-hint {
+  font-style: italic;
+  font-size: 0.88em;
+  color: #64748b;
+}
+
+.add-note-todo-strip-cancel-edit {
+  flex-shrink: 0;
+  height: 28px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(100, 116, 139, 0.14);
+  color: #334155;
+  font-size: 0.72rem;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.add-note-todo-strip-cancel-edit:hover {
+  background: rgba(100, 116, 139, 0.22);
+}
+
+.add-note-todo-strip-remove {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.add-note-todo-strip-remove:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.add-note-todo-strip-remove--countdown {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: rgba(254, 202, 202, 0.35);
+}
+
+.add-note-todo-delete-clock {
+  display: block;
+  flex-shrink: 0;
+}
+
+.add-note-todo-delete-clock-ring {
+  animation: add-note-delete-clock-ring-fill 4s linear forwards;
+}
+
+.add-note-todo-delete-clock-ring--reduced {
+  animation: add-note-delete-clock-ring-fill 4s linear forwards;
+}
+
+@keyframes add-note-delete-clock-ring-fill {
+  from {
+    stroke-dashoffset: 62.8319;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.add-note-todo-delete-clock-needle {
+  animation: add-note-delete-clock-needle-spin 4s linear forwards;
+}
+
+.add-note-todo-delete-clock-needle--reduced {
+  animation: none;
+  opacity: 0.9;
+}
+
+@keyframes add-note-delete-clock-needle-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.add-note-footer {
+  flex-shrink: 0;
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px max(14px, env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: #fff;
+}
+
+.add-note-footer-btn {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.add-note-footer-btn--cancel {
+  background: rgba(0, 0, 0, 0.06);
+  color: #334155;
+}
+
+.add-note-footer-btn--save {
+  background: #0f172a;
+  color: #fff;
+}
+
+.add-note-footer-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-note-err {
+  padding: 0 16px 8px;
+  font-size: 0.85rem;
+  color: #b91c1c;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .add-note-sheet.modal-sheet:not(.add-note-sheet--full-height) {
+    margin: 0 max(12px, env(safe-area-inset-left, 0px)) 0 max(12px, env(safe-area-inset-right, 0px));
+    max-height: calc(
+      100dvh - max(20px, env(safe-area-inset-top, 0px)) -
+        max(20px, env(safe-area-inset-bottom, 0px))
+    );
+    min-height: 0;
+  }
+
+  .add-note-sheet--full-height.modal-sheet {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+}

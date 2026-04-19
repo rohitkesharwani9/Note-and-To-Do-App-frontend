@@ -1,0 +1,30 @@
+/* Save new link modal — responsive + layout helpers (instruction.txt: mobile + desktop) */
+
+.save-new-link-modal-sheet {
+  max-width: min(680px, calc(100vw - 24px));
+}
+
+@media (max-width: 768px) {
+  .save-new-link-modal-sheet.modal-sheet {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+    padding-bottom: max(16px, calc(12px + env(safe-area-inset-bottom, 0px)));
+  }
+
+  .save-new-link-main-grid-wrap.add-task-main-grid {
+    gap: 8px;
+  }
+
+  .save-new-link-sub-row-wrap.add-task-sub-row {
+    gap: 8px;
+  }
+}
+
+@media (min-width: 769px) {
+  .save-new-link-modal-sheet.modal-sheet {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+/* Preview text is inline in ConfirmPop message string; no extra class without ConfirmPop change */
