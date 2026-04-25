@@ -7,7 +7,7 @@
   --text: #2c3340;
   --text-muted: #5a6578;
   --accent: #3d6b9a;
-  --accent-deep: #2d5378;
+  --accent-deep: #192f46;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
   /* Toolbar, sign out, status chips, Add task chips / modal actions (instruction rule 14) */

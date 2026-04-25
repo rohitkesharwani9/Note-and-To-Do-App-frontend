@@ -63,8 +63,8 @@ const ZOOM_NOTE_REST_SCALE = 1.04
 const ZOOM_PANEL_VARIANTS = {
   fromOrigin: (custom) => {
     const rect = custom?.rect
-    if (custom?.reduceMotion || !rect || typeof window === 'undefined') {
-      return { x: 0, y: 0, scale: 0.99, opacity: 1 }
+    if (custom?.reduceMotion || custom?.mobileLite || !rect || typeof window === 'undefined') {
+      return { x: 0, y: 0, scale: 1, opacity: 1 }
     }
     const vw = window.innerWidth
     const vh = window.innerHeight
@@ -78,7 +78,12 @@ const ZOOM_PANEL_VARIANTS = {
     const s = Math.max(0.2, s0)
     return { x: dx, y: dy, scale: s, opacity: 0.97 }
   },
-  expanded: { x: 0, y: 0, scale: ZOOM_NOTE_REST_SCALE, opacity: 1 },
+  expanded: (custom) => ({
+    x: 0,
+    y: 0,
+    scale: custom?.mobileLite ? 1 : ZOOM_NOTE_REST_SCALE,
+    opacity: 1,
+  }),
 }
 
 /** First character uppercase, all others lowercase (whole string). */
@@ -284,6 +289,10 @@ function boundingRectFromButtonOrParent(el) {
 export default function SavedLinksPage() {
   const navigate = useNavigate()
   const reduceMotion = useReducedMotion()
+  const [mobileLiteMotion, setMobileLiteMotion] = useState(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
+    return window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches
+  })
   const user = getStoredUser()
   const [saveLinkOpen, setSaveLinkOpen] = useState(false)
   const [modalInitialLink, setModalInitialLink] = useState(null)
@@ -336,6 +345,19 @@ export default function SavedLinksPage() {
   const savedLinkItemRefs = useRef(new Map())
   const savedLinkLayoutSnapshotRef = useRef(new Map())
   const savedLinkFlipRunIdRef = useRef(0)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined
+    const media = window.matchMedia('(max-width: 1024px), (pointer: coarse)')
+    const onChange = (e) => setMobileLiteMotion(e.matches)
+    setMobileLiteMotion(media.matches)
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', onChange)
+      return () => media.removeEventListener('change', onChange)
+    }
+    media.addListener(onChange)
+    return () => media.removeListener(onChange)
+  }, [])
 
   useEffect(() => {
     linksSearchAppliedRef.current = linksSearchApplied
@@ -1020,7 +1042,7 @@ export default function SavedLinksPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: reduceMotion ? 0.12 : 0.38,
+              duration: reduceMotion || mobileLiteMotion ? 0.08 : 0.38,
               ease: [0.22, 0.61, 0.36, 1],
             }}
           >
@@ -1031,14 +1053,14 @@ export default function SavedLinksPage() {
                 ...stickyNoteStyle(expandedZoom.themeKey),
                 transformOrigin: 'center center',
               }}
-              custom={{ rect: zoomFlyRect, reduceMotion }}
+              custom={{ rect: zoomFlyRect, reduceMotion, mobileLite: mobileLiteMotion }}
               variants={ZOOM_PANEL_VARIANTS}
               initial="fromOrigin"
               animate="expanded"
               exit="fromOrigin"
               transition={
-                reduceMotion
-                  ? { duration: 0.15, ease: [0.4, 0, 0.2, 1] }
+                reduceMotion || mobileLiteMotion
+                  ? { duration: 0.09, ease: [0.4, 0, 0.2, 1] }
                   : {
                       type: 'spring',
                       stiffness: 360,

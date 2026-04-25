@@ -9,9 +9,7 @@ html {
   scrollbar-gutter: stable;
 }
 
-:root {
-  --app-text-color: #0f172a;
-}
+
 
 body {
   margin: 0;
@@ -34,6 +32,10 @@ body {
 button,
 input {
   font: inherit;
+}
+
+button {
+  color: var(--app-button-text-color);
 }
 
 /* Slightly darker global text tone across pages/popups/elements */

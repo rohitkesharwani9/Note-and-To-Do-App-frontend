@@ -237,8 +237,8 @@ const ZOOM_NOTE_REST_SCALE = 1.04
 const ZOOM_PANEL_VARIANTS = {
   fromOrigin: (custom) => {
     const rect = custom?.rect
-    if (custom?.reduceMotion || !rect || typeof window === 'undefined') {
-      return { x: 0, y: 0, scale: 0.99, opacity: 1 }
+    if (custom?.reduceMotion || custom?.mobileLite || !rect || typeof window === 'undefined') {
+      return { x: 0, y: 0, scale: 1, opacity: 1 }
     }
     const vw = window.innerWidth
     const vh = window.innerHeight
@@ -252,7 +252,12 @@ const ZOOM_PANEL_VARIANTS = {
     const s = Math.max(0.2, s0)
     return { x: dx, y: dy, scale: s, opacity: 0.97 }
   },
-  expanded: { x: 0, y: 0, scale: ZOOM_NOTE_REST_SCALE, opacity: 1 },
+  expanded: (custom) => ({
+    x: 0,
+    y: 0,
+    scale: custom?.mobileLite ? 1 : ZOOM_NOTE_REST_SCALE,
+    opacity: 1,
+  }),
 }
 
 /** Same solid palette as Add note editor */
@@ -393,6 +398,10 @@ export default function NotePage() {
   const navigate = useNavigate()
   const location = useLocation()
   const reduceMotion = useReducedMotion()
+  const [mobileLiteMotion, setMobileLiteMotion] = useState(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false
+    return window.matchMedia('(max-width: 1024px), (pointer: coarse)').matches
+  })
   const user = getStoredUser()
   const zoomTitleId = useId()
   const [addNoteOpen, setAddNoteOpen] = useState(false)
@@ -437,6 +446,19 @@ export default function NotePage() {
   /** After search icon when DB total ≤ threshold: search entire fetched list (sort + toggle already applied). */
   const [noteSearchWideClient, setNoteSearchWideClient] = useState(false)
   const [noteSearchBusy, setNoteSearchBusy] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined
+    const media = window.matchMedia('(max-width: 1024px), (pointer: coarse)')
+    const onChange = (e) => setMobileLiteMotion(e.matches)
+    setMobileLiteMotion(media.matches)
+    if (typeof media.addEventListener === 'function') {
+      media.addEventListener('change', onChange)
+      return () => media.removeEventListener('change', onChange)
+    }
+    media.addListener(onChange)
+    return () => media.removeListener(onChange)
+  }, [])
 
   useEffect(() => {
     try {
@@ -1107,7 +1129,7 @@ export default function NotePage() {
               animate="animate"
               exit="exit"
               transition={
-                reduceMotion
+                reduceMotion || mobileLiteMotion
                   ? { duration: 0.15 }
                   : {
                       duration: 0.5,
@@ -1268,7 +1290,7 @@ export default function NotePage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{
-              duration: reduceMotion ? 0.12 : 0.38,
+              duration: reduceMotion || mobileLiteMotion ? 0.08 : 0.38,
               ease: [0.22, 0.61, 0.36, 1],
             }}
           >
@@ -1280,14 +1302,14 @@ export default function NotePage() {
                 ...smallNoteCardStyle(expandedRow),
                 transformOrigin: 'center center',
               }}
-              custom={{ rect: zoomFlyRect, reduceMotion }}
+              custom={{ rect: zoomFlyRect, reduceMotion, mobileLite: mobileLiteMotion }}
               variants={ZOOM_PANEL_VARIANTS}
               initial="fromOrigin"
               animate="expanded"
               exit="fromOrigin"
               transition={
-                reduceMotion
-                  ? { duration: 0.15, ease: [0.4, 0, 0.2, 1] }
+                reduceMotion || mobileLiteMotion
+                  ? { duration: 0.09, ease: [0.4, 0, 0.2, 1] }
                   : {
                       type: 'spring',
                       stiffness: 360,
@@ -1520,7 +1542,11 @@ export default function NotePage() {
                         const snap = snapshotSmallNoteForEdit(expandedRow)
                         if (!snap) return
                         setNoteToEdit(snap)
-                        setAddNoteOriginRect(boundingRectFromButtonOrParent(e.currentTarget))
+                        setAddNoteOriginRect(
+                          mobileLiteMotion
+                            ? null
+                            : boundingRectFromButtonOrParent(e.currentTarget),
+                        )
                         setAddNoteOpen(true)
                         setExpandedNoteId(null)
                       }}
@@ -1730,7 +1756,7 @@ export default function NotePage() {
       />
       <AddNote
         open={addNoteOpen}
-        originRect={addNoteOriginRect}
+        originRect={mobileLiteMotion ? null : addNoteOriginRect}
         editNote={noteToEdit}
         onClose={() => {
           setAddNoteOpen(false)
