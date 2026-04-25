@@ -9,6 +9,10 @@ html {
   scrollbar-gutter: stable;
 }
 
+:root {
+  --app-text-color: #0f172a;
+}
+
 body {
   margin: 0;
   min-height: 100dvh;
@@ -20,6 +24,7 @@ body {
     'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
+  color: var(--app-text-color);
 }
 
 #root {
@@ -29,4 +34,25 @@ body {
 button,
 input {
   font: inherit;
+}
+
+/* Slightly darker global text tone across pages/popups/elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+li,
+small,
+strong,
+em,
+button,
+input,
+textarea,
+select {
+  color: inherit;
 }

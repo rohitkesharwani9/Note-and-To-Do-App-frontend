@@ -407,12 +407,14 @@
   font-size: 0.92rem;
   color: #0f172a;
   list-style: none;
+  touch-action: pan-y;
 }
 
 .add-note-todo-strip--draggable {
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: none;
 }
 
 .add-note-todo-strip--draggable:active {
@@ -459,6 +461,30 @@
   background: rgba(59, 130, 246, 0.14);
   color: #1d4ed8;
   cursor: pointer;
+}
+
+.add-note-todo-strip-reorder-toggle {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(100, 116, 139, 0.14);
+  color: #334155;
+  cursor: pointer;
+}
+
+.add-note-todo-strip-reorder-toggle:hover {
+  background: rgba(100, 116, 139, 0.22);
+}
+
+.add-note-todo-strip-reorder-toggle--active {
+  background: rgba(16, 185, 129, 0.18);
+  color: #047857;
 }
 
 .add-note-todo-strip-edit:hover {
